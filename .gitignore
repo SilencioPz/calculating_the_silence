@@ -90,3 +90,14 @@ Desktop.ini
 # Firebase e Google Services (se usar)
 google-services.json
 GoogleService-Info.plist
+
+# Gradle
+.gradle/
+!gradle-wrapper.jar
+
+# Android Studio
+.idea/
+.gradle/
+gradle/libs.versions.toml  # <-- Essa linha nova vai pegar o TOML específico
+/gradle/libs.versions.toml
+
