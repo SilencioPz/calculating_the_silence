@@ -1,0 +1,92 @@
+# Padrão do Android Studio
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Adições recomendadas:
+# Arquivos gerados pelo Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+/gradlew
+/gradlew.bat
+
+# Arquivos de configuração do Android Studio
+/.idea/runConfigurations/
+/.idea/gradle.xml
+/.idea/compiler.xml
+/.idea/misc.xml
+/.idea/vcs.xml
+*.ipr
+*.iws
+
+# Build e outputs
+**/build/
+**/bin/
+**/gen/
+**/out/
+**/production/
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Arquivos temporários
+*.log
+*.bak
+*.swp
+*.save
+*.orig
+*~
+
+# Cache e arquivos de usuário
+**/.settings/
+**/*.prefs
+
+# Sistemas operacionais específicos
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+._*
+
+# Bibliotecas (se estiver usando algo local)
+**/libs/
+!**/src/main/libs/
+
+# Para o iText PDF (se tiver algo local)
+**/itext/
+
+# Arquivos de configuração específicos
+**/gradle.properties
+**/proguard/
+**/lint/
+
+# Arquivos de dados gerados (se houver)
+*.csv
+*.data
+*.json
+*.tmp
+
+# Arquivos de keystore (nunca suba isso!)
+*.keystore
+*.jks
+*.key
+*.cert
+*.p12
+*.pfx
+
+# Firebase e Google Services (se usar)
+google-services.json
+GoogleService-Info.plist
