@@ -36,13 +36,21 @@ Um aplicativo Android desenvolvido em Kotlin para controle financeiro inteligent
 kotlin
 
 @Entity(tableName = "transactions")
+
 data class Transaction(
+
     @PrimaryKey(autoGenerate = true) val id: Int,
+    
     val description: String,
+    
     val amount: Double,  // Negativo para saídas
+    
     val category: String,
+    
     val month: Int,
+    
     val year: Int
+    
 )
 ---------------------------------------------------------------------------------------
 🛠️ Tecnologias Utilizadas
