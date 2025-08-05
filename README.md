@@ -98,20 +98,29 @@ CalculandoOSilencio/
 kotlin
 
 // Room + Coroutines
+
 implementation("androidx.room:room-runtime:2.6.1")
+
 implementation("androidx.room:room-ktx:2.6.1")
+
 ksp("androidx.room:room-compiler:2.6.1")
 
 // iTextPDF
+
 implementation("com.itextpdf:itext7-core:7.2.3")
+
 implementation("com.itextpdf:layout:7.2.3")
 
 // Gráficos
+
 implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 // Jetpack Compose
+
 implementation(platform("androidx.compose:compose-bom:2024.02.01"))
+
 implementation("androidx.compose.material3:material3")
+
 ---------------------------------------------------------------------------------------
 🎨 UI/UX
 
@@ -153,4 +162,4 @@ Orçamento mensal	         💡 Planejado
 
 Projeto open-source sob MIT License.
 
-Desenvolvido com ❤️ (e muito café) em Rondonópolis/MT!
+Desenvolvido com muito café, com ajuda das IAs DeepSeek e Claude Chat em Rondonópolis/MT!
