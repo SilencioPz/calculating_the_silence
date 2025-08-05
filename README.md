@@ -88,8 +88,11 @@ CalculandoOSilencio/
 │   │   │   ├── theme/             # Color, Theme, Type
 
 │   │   │   └── viewmodel/         # TransactionViewModel
+
 │   │   └── res/                   # Drawables, Strings...
+
 ├── build.gradle.kts               # Configuração principal
+
 ---------------------------------------------------------------------------------------
 🔧 Dependências Críticas
 kotlin
