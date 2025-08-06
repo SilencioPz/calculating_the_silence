@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.example.calculandoosilencio"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.calculandoosilencio"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -28,66 +28,74 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
+
     buildFeatures {
         compose = true
     }
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
     }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/INDEX.LIST"
+            excludes += "/META-INF/DEPENDENCIES"
+        }
+    }
 }
 
 dependencies {
-
+    // Core Android + Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform("androidx.compose:compose-bom:2024.02.01"))
+
+    // Compose BOM - garante versões compatíveis
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    //Icons
-    implementation("androidx.compose.material3:material3:1.2.0")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0")
-    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+    // Material Icons - versão compatível
+    implementation("androidx.compose.material:material-icons-extended")
 
-    // Room Database (usando KSP)
+    // Room Database
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-    implementation(libs.androidx.foundation.layout)
-    implementation(libs.androidx.runtime)
-    implementation(libs.androidx.benchmark.traceprocessor)
-    implementation(libs.material3)
     ksp("androidx.room:room-compiler:2.6.1")
 
     // ViewModel + Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
+//    implementation("androidx.compose.runtime:runtime-livedata:1.6.1")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    //Horário
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+    // DateTime
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 
-    //TextStyle
-    implementation("androidx.compose.ui:ui-text")
+    // PDF - iText7 - versão compatível
+    implementation("com.itextpdf:itext7-core:7.2.5")
 
-    // PDF - iText7 (versão completa)
-    implementation("com.itextpdf:itext7-core:7.2.3")
-    implementation("com.itextpdf:layout:7.2.3")
-
-    //Gráficos
+    // Charts - alternativa mais leve
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
+    // Foundation Layout
+    implementation(libs.androidx.foundation.layout)
+    implementation(libs.androidx.runtime)
+
+    // Testes
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

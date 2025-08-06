@@ -42,6 +42,8 @@ gradle-app.setting
 *.aar
 *.ap_
 *.aab
+*.dex
+*.class
 
 # Arquivos temporários
 *.log
@@ -69,7 +71,7 @@ Desktop.ini
 **/itext/
 
 # Arquivos de configuração específicos
-**/gradle.properties
+app/src/main/java/com/example/calculandoosilencio/gradle.properties
 **/proguard/
 **/lint/
 
@@ -78,6 +80,7 @@ Desktop.ini
 *.data
 *.json
 *.tmp
+*.temp
 
 # Arquivos de keystore (nunca suba isso!)
 *.keystore
@@ -100,4 +103,16 @@ GoogleService-Info.plist
 .gradle/
 gradle/libs.versions.toml  # <-- Essa linha nova vai pegar o TOML específico
 /gradle/libs.versions.toml
+
+# Arquivos de memória/debug - IMPORTANTE!
+*.hprof
+java_pid*.hprof
+
+# Gradle properties (contém configurações específicas da máquina)
+# OPÇÃO 1: Ignorar completamente (mais seguro)
+gradle.properties
+
+# Room schema exports
+/schemas/
+
 
