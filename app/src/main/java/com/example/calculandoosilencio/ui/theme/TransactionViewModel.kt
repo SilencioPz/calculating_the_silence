@@ -43,17 +43,30 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
                 }
         }.stateIn(viewModelScope, SharingStarted.Lazily, emptyMap())
 
-    val annualAverage: StateFlow<Double> =
+    val annualAverageExpensePercentage: StateFlow<Double> =
         _transactions.combine(_currentYear) { transactions, year ->
-            val monthlyTotals = transactions
+            val monthlyData = transactions
                 .filter { it.year == year }
                 .groupBy { it.month }
                 .mapValues { (_, monthTransactions) ->
-                    monthTransactions.sumOf { it.amount }
+                    val totalIncome = monthTransactions
+                        .filter { it.amount > 0 }
+                        .sumOf { it.amount } // Soma das entradas
+
+                    val totalExpenses = monthTransactions
+                        .filter { it.amount < 0 }
+                        .sumOf { it.amount }
+                        .absoluteValue // Soma dos gastos (valor positivo)
+
+                    if (totalIncome > 0) {
+                        (totalExpenses / totalIncome) * 100 // Porcentagem de gastos
+                    } else {
+                        0.0 // Evita divisão por zero
+                    }
                 }
 
-            if (monthlyTotals.isEmpty()) 0.0
-            else monthlyTotals.values.average()
+            if (monthlyData.isEmpty()) 0.0
+            else monthlyData.values.average() // Média das porcentagens
         }.stateIn(viewModelScope, SharingStarted.Lazily, 0.0)
 
     val monthlyBalance: StateFlow<Double> =

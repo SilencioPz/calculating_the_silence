@@ -75,7 +75,7 @@ fun TransactionScreen(viewModel: TransactionViewModel = viewModel()) {
     var showAnnualChartScreen by remember { mutableStateOf(false) }
     var showAnnualAverageDialog by remember { mutableStateOf(false) }
 
-    val annualAverage by viewModel.annualAverage.collectAsState()
+    val annualAverageExpensePercentage by viewModel.annualAverageExpensePercentage.collectAsState()
     val annualExpenses by viewModel.annualExpensesByCategory.collectAsState()
 
     var isExportingPdf by remember { mutableStateOf(false) }
@@ -110,13 +110,18 @@ fun TransactionScreen(viewModel: TransactionViewModel = viewModel()) {
     if (showAnnualAverageDialog) {
         AlertDialog(
             onDismissRequest = { showAnnualAverageDialog = false },
-            title = { Text("Média Anual") },
+            title = { Text("Média de Gastos vs Renda") },
             text = {
                 Column {
-                    Text("Média de gastos mensais em $currentYear:")
+                    Text("Em $currentYear, você gastou em média:")
                     Text(
-                        "R$ ${"%.2f".format(annualAverage)}",
+                        "${"%.2f".format(annualAverageExpensePercentage)}% da " +
+                                "sua renda mensal",
                         style = MaterialTheme.typography.headlineSmall
+                    )
+                    Text(
+                        "Baseado na relação gastos/entradas de cada mês",
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
             },
