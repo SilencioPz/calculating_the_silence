@@ -115,4 +115,10 @@ gradle.properties
 # Room schema exports
 /schemas/
 
+# Arquivos de release/APK gerados manualmente
+app/release/
+app/*.apk
 
+# Arquivos específicos do Android Studio
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml

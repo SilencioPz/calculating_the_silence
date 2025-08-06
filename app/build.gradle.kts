@@ -59,9 +59,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-
-    // Compose BOM - garante versões compatíveis
-    implementation(platform(libs.androidx.compose.bom))
+    // Atualize para a versão mais recente
+    implementation(platform("androidx.compose:compose-bom:2024.10.00"))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)

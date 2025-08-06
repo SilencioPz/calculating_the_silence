@@ -13,10 +13,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/silenciopz_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CalculandoOSilencio">
+        android:theme="@style/Theme.CalculandoOSilencio"
+        android:hardwareAccelerated="true"
+        android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"
-            android:hardwareAccelerated="false"
+            android:hardwareAccelerated="true"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.CalculandoOSilencio">

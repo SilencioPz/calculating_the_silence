@@ -53,6 +53,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.interaction.MutableInteractionSource
 
 @Composable
 fun TransactionScreen(viewModel: TransactionViewModel = viewModel()) {
@@ -456,17 +457,21 @@ fun TransactionScreen(viewModel: TransactionViewModel = viewModel()) {
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = 8.dp, vertical = 2.dp)
-                                        .clickable {
-                                            selectedTransaction = transaction
-                                            description = transaction.description
-                                            amount = transaction.amount.toString()
-                                            category = transaction.category
-                                            Toast.makeText(
-                                                context,
-                                                "✏️ Transação selecionada: ${transaction.description}",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
+                                        .clickable (
+                                            interactionSource = remember { MutableInteractionSource() },
+                                            indication = null,
+                                            onClick = {
+                                                selectedTransaction = transaction
+                                                description = transaction.description
+                                                amount = transaction.amount.toString()
+                                                category = transaction.category
+                                                Toast.makeText(
+                                                    context,
+                                                    "✏️ Transação selecionada: ${transaction.description}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        )
                                         .let { modifier ->
                                             if (selectedTransaction?.id == transaction.id) {
                                                 modifier.border(
