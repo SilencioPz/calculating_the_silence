@@ -56,17 +56,22 @@ fun AnnualChart(transactions: List<Transaction>) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
+
+            Spacer(modifier = Modifier.width(8.dp))
+
             Button(
                 onClick = {
                     showPieChart = true
-                    println("DEBUG: Mudando para PieChart")
+                    println("DEBUG: Mudando para BarChart")
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (showPieChart) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.surfaceVariant
+                    else MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = if (showPieChart) MaterialTheme.colorScheme.onPrimary
+                    else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             ) {
-                Text("Por Categoria")
+                Text("Gráfico Pizza")
             }
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -78,10 +83,12 @@ fun AnnualChart(transactions: List<Transaction>) {
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (!showPieChart) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.surfaceVariant
+                    else MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = if (!showPieChart) MaterialTheme.colorScheme.onPrimary
+                    else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             ) {
-                Text("Por Mês")
+                Text("Gráfico Barra")
             }
         }
 
@@ -110,43 +117,40 @@ private fun PieChartAnnual(transactions: List<Transaction>) {
                 setDrawEntryLabels(true)
                 setEntryLabelTextSize(12f)
                 animateY(1000)
-
+                setEntryLabelColor(android.graphics.Color.WHITE) // Adiciona texto branco
                 println("DEBUG: PieChart criado")
             }
         },
         update = { chart ->
             try {
-                // APENAS GASTOS (saídas) por categoria - valores negativos em vermelho
-                val expensesByCategory = transactions
-                    .filter { it.amount < 0 }
+                // Agrupar por categoria (tanto entradas quanto saídas)
+                val dataByCategory = transactions
                     .groupBy { it.category }
                     .mapValues { (_, transactions) ->
-                        transactions.sumOf { it.amount }.absoluteValue
+                        transactions.sumOf { it.amount }
                     }
-                    .filter { it.value > 0 }
+                    .filter { it.value != 0.0 }
 
-                println("DEBUG: Gastos por categoria: $expensesByCategory")
+                println("DEBUG: Dados por categoria: $dataByCategory")
 
-                if (expensesByCategory.isEmpty()) {
-                    println("DEBUG: Nenhum gasto encontrado")
+                if (dataByCategory.isEmpty()) {
+                    println("DEBUG: Nenhum dado encontrado")
                     return@AndroidView
                 }
 
-                val entries = expensesByCategory.map { (category, amount) ->
-                    PieEntry(amount.toFloat(), category)
+                val entries = dataByCategory.map { (category, amount) ->
+                    PieEntry(amount.absoluteValue.toFloat(), category)
                 }
 
-                val dataSet = PieDataSet(entries, "Gastos por Categoria").apply {
-                    // Cores vermelhas para gastos
-                    colors = listOf(
-                        android.graphics.Color.parseColor("#F44336"), // Vermelho
-                        android.graphics.Color.parseColor("#E57373"), // Vermelho claro
-                        android.graphics.Color.parseColor("#EF5350"), // Vermelho médio
-                        android.graphics.Color.parseColor("#FF5722"), // Vermelho laranja
-                        android.graphics.Color.parseColor("#FF1744"), // Vermelho escuro
-                        android.graphics.Color.parseColor("#D32F2F"), // Vermelho muito escuro
-                        android.graphics.Color.parseColor("#B71C1C")  // Vermelho bordô
-                    )
+                val dataSet = PieDataSet(entries, "Entradas e Saídas por Categoria").apply {
+                    // Cores diferentes para entradas (verde) e saídas (vermelho)
+                    colors = dataByCategory.map { (_, amount) ->
+                        if (amount >= 0) {
+                            android.graphics.Color.parseColor("#4CAF50") // Verde para entradas
+                        } else {
+                            android.graphics.Color.parseColor("#F44336") // Vermelho para saídas
+                        }
+                    }
                     valueTextColor = android.graphics.Color.WHITE
                     valueTextSize = 12f
                     sliceSpace = 3f
@@ -160,7 +164,7 @@ private fun PieChartAnnual(transactions: List<Transaction>) {
                 chart.data = data
                 chart.invalidate()
 
-                println("DEBUG: PieChart atualizado com ${entries.size} entradas - APENAS GASTOS")
+                println("DEBUG: PieChart atualizado com ${entries.size} entradas")
 
             } catch (e: Exception) {
                 println("DEBUG: Erro no PieChart: ${e.message}")
@@ -186,6 +190,12 @@ private fun BarChartAnnual(transactions: List<Transaction>) {
                 setPinchZoom(true)
                 legend.isEnabled = true
                 animateY(1000)
+
+                // Configurar cores do texto
+                legend.textColor = android.graphics.Color.WHITE
+                xAxis.textColor = android.graphics.Color.WHITE
+                axisLeft.textColor = android.graphics.Color.WHITE
+                axisRight.textColor = android.graphics.Color.WHITE
 
                 // Configurar eixos
                 xAxis.apply {
@@ -229,11 +239,13 @@ private fun BarChartAnnual(transactions: List<Transaction>) {
                 val setIncome = BarDataSet(entriesIncome, "Entradas").apply {
                     color = android.graphics.Color.parseColor("#4CAF50") // VERDE para entradas
                     valueTextSize = 10f
+                    valueTextColor = android.graphics.Color.WHITE
                 }
 
                 val setExpense = BarDataSet(entriesExpense, "Saídas").apply {
                     color = android.graphics.Color.parseColor("#F44336") // VERMELHO para saídas
                     valueTextSize = 10f
+                    valueTextColor = android.graphics.Color.WHITE
                 }
 
                 val data = BarData(setIncome, setExpense).apply {
